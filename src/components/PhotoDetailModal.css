@@ -1,0 +1,236 @@
+/* Photo Detail Modal Styling - HUD / Photographer's Desk Style */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 11, 17, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-container {
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-xl);
+  width: 100%;
+  max-width: 1100px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  box-shadow: var(--shadow-modal);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Close Button */
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(19, 20, 29, 0.6);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1010;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--accent);
+  color: #100b1a;
+  border-color: var(--accent);
+  transform: rotate(90deg);
+}
+
+/* Photo Pane (Left Side) */
+.modal-photo-pane {
+  flex: 1.4;
+  background: #050508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 400px;
+  max-height: 80vh;
+}
+
+.modal-large-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-height: 80vh;
+}
+
+/* Details Panel (Right Side) */
+.modal-details-panel {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 80vh;
+  border-left: 1px solid var(--line);
+}
+
+.modal-meta-header {
+  margin-bottom: 24px;
+}
+
+.modal-location {
+  font: 700 11px var(--mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.modal-title {
+  font: 800 28px/1.2 var(--disp);
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.modal-date {
+  font: 400 12px var(--mono);
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-description {
+  font: 400 14px/1.6 var(--sans);
+  color: var(--ink-2);
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* EXIF HUD Grid */
+.exif-section-title {
+  font: 700 12px var(--mono);
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.exif-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.exif-item {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.exif-icon {
+  color: var(--accent-violet);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.exif-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.exif-label {
+  font: 700 10px var(--mono);
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.exif-value {
+  font: 700 13px var(--sans);
+  color: var(--ink);
+}
+
+.exif-value-mono {
+  font: 400 12px var(--mono);
+  color: var(--ink);
+}
+
+/* GPS Coordinates Panel */
+.coordinates-box {
+  background: rgba(180, 170, 225, 0.03);
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coord-row {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px var(--mono);
+}
+
+.coord-label {
+  color: var(--ink-3);
+}
+
+.coord-val {
+  color: var(--ink-2);
+  font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 860px) {
+  .modal-container {
+    flex-direction: column;
+    max-height: 95vh;
+  }
+  
+  .modal-photo-pane {
+    flex: none;
+    height: 35vh;
+    min-height: 250px;
+  }
+  
+  .modal-details-panel {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding: 24px;
+    max-height: 60vh;
+  }
+}

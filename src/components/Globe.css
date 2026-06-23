@@ -1,0 +1,185 @@
+/* Interactive Globe Styling */
+
+.globe-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* The actual 3D Globe Canvas */
+.globe-canvas {
+  cursor: grab;
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(19, 20, 29, 0.4) 0%, rgba(10, 11, 17, 0.9) 70%);
+  transition: box-shadow 0.3s ease;
+}
+
+.globe-canvas:active {
+  cursor: grabbing;
+}
+
+/* Floating overlay for absolute positioning of pins */
+.globe-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let pointer events pass to canvas for dragging */
+  overflow: hidden;
+}
+
+/* Pin wrappers positioned via JS translate3d */
+.photo-pin-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  z-index: 10;
+}
+
+/* Inner pin interactive element */
+.photo-pin-inner {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  margin-left: -19px; /* Center horizontally */
+  margin-top: -19px;  /* Center vertically */
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--panel);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  pointer-events: auto; /* Re-enable pointer events for interaction */
+  cursor: pointer;
+  overflow: visible;
+  transition: 
+    transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.25),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Active or hovered pin state */
+.photo-pin-inner.is-active,
+.photo-pin-inner:hover {
+  transform: scale(1.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(244, 154, 212, 0.5), var(--shadow-card);
+  z-index: 15;
+}
+
+/* The circular image thumbnail inside the pin */
+.photo-pin-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Floating tooltip styling - technical look */
+.photo-pin-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 6px 12px;
+  box-shadow: var(--shadow-pop);
+  transition: 
+    opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  text-align: center;
+  min-width: 140px;
+}
+
+.photo-pin-inner:hover .photo-pin-tooltip,
+.photo-pin-inner.is-active .photo-pin-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.tooltip-title {
+  display: block;
+  font: 700 12px var(--disp);
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.tooltip-loc {
+  display: block;
+  font: 400 10px var(--mono);
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Controls overlaid below the globe */
+.globe-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 6px 12px;
+  z-index: 5;
+}
+
+.control-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-2);
+  font: 400 12px var(--mono);
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  color: var(--ink);
+  background: var(--panel-2);
+}
+
+.control-btn.active {
+  color: var(--accent);
+  background: rgba(244, 154, 212, 0.08);
+  font-weight: 700;
+}
+
+/* Subtle compass rose marker on globe background */
+.globe-backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.03;
+  z-index: 0;
+}
+
+.globe-backdrop svg {
+  width: 120%;
+  height: 120%;
+  color: var(--ink);
+}
