@@ -70,7 +70,11 @@ function Globe({ photos, activePhoto, onPhotoSelect }: GlobeProps) {
   // Sync auto-rotation state with ref for animation loop
   useEffect(() => {
     isAutoRotatingRef.current = isAutoRotating;
-  }, [isAutoRotating]);
+    // R3-656 fault injection (reverted by the next commit): `isAutoRotating` dropped from
+    // the dependency array — a react-hooks/exhaustive-deps WARNING, planted against the
+    // SHIPPED form: the workflow now runs a bare `npm run lint` and the flag lives in the
+    // script, which is not what run 35094...(7c058d5, R3-648) exercised.
+  }, []);
 
   // Pre-calculate 3D vectors for photo locations
   useEffect(() => {
