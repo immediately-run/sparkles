@@ -31,3 +31,7 @@ function Counter() {
 }
 
 export default Counter;
+
+// R3-648 fault injection — REVERTED by the next commit. A lint/build-only gate is proved
+// with a lint error rather than a failing test, since this repo ships no suite.
+const __r3648FaultInjection = 'unused — eslint no-unused-vars must reject this';
